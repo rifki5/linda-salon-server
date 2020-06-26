@@ -1,0 +1,44 @@
+{
+  "version": "1.0.0",
+  "name": "linda-salon-server",
+  "scripts": {
+    "start:local": "dotenv -e .env.local -- nodemon -e ts,graphql -x ts-node src/index.ts",
+    "start:prod": "dotenv -e .env.prod -- nodemon -e ts,graphql -x ts-node src/index.ts",
+    "dev:local": "npm-run-all --parallel start:local playground",
+    "debug": "dotenv -- nodemon -e ts,graphql -x ts-node --inspect src/index.ts",
+    "playground": "graphql playground",
+    "build": "rimraf dist && tsc --build"
+  },
+  "dependencies": {
+    "@types/date-fns": "2.6.0",
+    "bcryptjs": "2.4.3",
+    "date-fns": "1.29.0",
+    "graphql-middleware-apollo-upload-server": "1.0.8",
+    "graphql-shield": "2.2.6",
+    "graphql-yoga": "1.15.1",
+    "jsonwebtoken": "8.3.0",
+    "lodash": "4.17.10",
+    "prisma-binding": "2.1.3"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "2.4.1",
+    "@types/lodash": "4.14.116",
+    "aws-sdk": "2.287.0",
+    "cors": "2.8.4",
+    "dotenv-cli": "1.4.0",
+    "fs": "0.0.1-security",
+    "graphql-cli": "2.16.5",
+    "graphql-constraint-directive": "1.1.0",
+    "graphql-cost-analysis": "1.0.1",
+    "graphql-depth-limit": "1.1.0",
+    "graphql-tools": "3.1.1",
+    "merge-graphql-schemas": "1.5.3",
+    "nodemon": "1.18.3",
+    "npm-run-all": "4.1.3",
+    "prisma": "1.13.6",
+    "rimraf": "2.6.2",
+    "ts-node": "6.2.0",
+    "typescript": "3.0.1",
+    "uuid": "3.3.2"
+  }
+}

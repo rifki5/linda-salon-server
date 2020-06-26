@@ -1,0 +1,67 @@
+# This is where we define any custom resolvers, and where we add custom directives to any generated Prisma resolvers
+scalar Upload
+scalar DateTime
+scalar Long
+
+type AuthPayload {
+  token: String! 
+  user: User!
+}
+
+type Data {
+  type: String!
+  content: String!
+}
+
+type DataOutput {
+  date: Int!
+  data: [Data!]!
+}
+
+type BatchPayload {
+  count: Long!
+}
+
+type Query {
+  me: User! 
+  booking(id: ID): Booking
+  filterProductByDateGiven(startDate: DateTime!, endDate: DateTime!, first: Int!, tag: String!, skip: Int!): ProductsConnection
+  productsConnection(first: Int!, skip: Int!, tag: String!): ProductsConnection
+  usersConnection(first: Int!, skip: Int!, role: Role!): UsersConnection
+  searchBookingsByUser(idUser: ID!, first: Int!, skip: Int!): BookingConnection
+  searchBookingUserStatusCreated(idUser: ID!): [Booking!]!
+  bookingConnection(first: Int!, skip: Int!): BookingConnection
+  bookingsFilterByDate(dateNow: DateTime!): [DataOutput!]!
+  user(id: ID!): User!
+  product(id: ID!): Product!
+}
+
+type Mutation {
+  signup(email: String!, password: String!, name: String!): AuthPayload!
+  login(email: String!, password: String!): AuthPayload! 
+
+  uploadUserPhoto (file: Upload): UserPhoto!
+  deleteUserPhoto(idPhoto: String!, key: String!): UserPhoto!
+
+  uploadProductPhoto (file: Upload): ProductPhoto!
+  deleteProductPhoto(idPhoto: ID!, key: String!): OnDeleteResponse!
+
+  createProduct(name: String!, stock: Int!, price: Int!, description: String!, tag: String!, idPhotoProduct: ID): Product!
+  deleteProduct(id: ID!): Product!
+  deleteManyProduct(ids: [ID!]!): BatchPayload!
+  updateProduct(name: String!, stock: Int!, price: Int!, description: String!, tag: ProductTag!, whereId: ID!, idPhotoProduct: ID): Product!
+
+  deleteUser(id: ID!): User!
+  deleteManyUser(ids:[ID!]!): BatchPayload!
+  updateUser(name: String!, email: String!, password: String, whereId: ID!): User!
+
+  createAdmin(name: String!, email: String!, password: String!): User!
+
+  createBooking(startDate: DateTime!, endDate: DateTime! ): Booking!
+  addProductToBooking(idProduct: ID!, amount: Int!, idBooking: ID!): Booking!
+  removeItemFromBooking(idItem: ID!, idBooking: ID!): Booking!
+  sendBooking(idBooking: ID!, address: String!, noWhatsApp: String!, message: String): Booking!
+  updateStatusBooking(status: BookingStatus!, idBooking: ID!): Booking!
+  deleteBooking(id: ID!): Booking!
+  deleteManyBooking(ids: [ID!]!): BatchPayload!
+}

@@ -1,0 +1,9 @@
+dist
+package-lock.json
+node_modules
+database/data
+.idea
+# .vscode
+*.log
+.env*
+src/services/ujicoba.ts

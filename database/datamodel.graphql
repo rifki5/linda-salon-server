@@ -1,0 +1,93 @@
+type User {
+  id: ID! @unique
+  name: String!
+  email: String! @unique
+  password: String! 
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  photo: UserPhoto  @relation(name: "UserInPhoto", onDelete: CASCADE)
+  role: Role! @default(value: "CUSTOMER")
+  bookings: [Booking!]! @relation(name: "BookingInUser", onDelete: CASCADE)
+}
+
+type Booking {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  startDate: DateTime!
+  endDate: DateTime!
+  noWhatsApp: String
+  address: String
+  message: String
+  items: [Item!]! @relation(name: "BookingInItem", onDelete: CASCADE) 
+  status: BookingStatus! @default(value: "CREATED")
+  userBooking: User! @relation(name: "BookingInUser", onDelete: SET_NULL)
+}
+
+type Item {
+  id: ID! @unique
+  amount: Int!
+  product: Product @relation(name: "ProductInItem", onDelete: SET_NULL)
+  booking: Booking @relation(name: "BookingInItem", onDelete: SET_NULL)
+}
+
+type Product {
+  id: ID! @unique
+  name: String!
+  description: String!
+  tag: ProductTag!
+  stock: Int!
+  photo: ProductPhoto @relation(name: "ProductInPhoto", onDelete: CASCADE)
+  item: [Item!]! @relation(name: "ProductInItem", onDelete: CASCADE)
+  price: Int!
+}
+
+type UserPhoto {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  key: String!
+  filename: String
+  mimetype: String!
+  encoding: String!
+  url: String! @unique
+  userPhoto: User @relation(name: "UserInPhoto", onDelete: SET_NULL)
+}
+
+type ProductPhoto {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  key: String!
+  filename: String
+  mimetype: String!
+  encoding: String!
+  url: String! @unique
+  Product: Product @relation(name: "ProductInPhoto", onDelete: SET_NULL)
+}
+
+type PhotoGallery {
+  id: ID! @unique
+  key: String!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  url: String!
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+enum ProductTag {
+  BARANG,
+  PAKETWEDDING
+}
+
+enum BookingStatus {
+  CREATED,
+  SEND,
+  PROCCESS,
+  SUCCESS,
+}

@@ -1,0 +1,134 @@
+# All types defined here will be fed through the Prisma generation process
+# Essentially, all of these types become database tables
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  password: String! 
+  photo: UserPhoto 
+  role: Role! @default(value: "CUSTOMER")
+  bookings: [Booking!]!
+}
+
+type UserPhoto {
+  id: ID!
+  key: String!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  url: String! 
+  userPhoto: User 
+}
+
+type ProductPhoto {
+  id: ID!
+  key: String!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  url: String! 
+  Product: Product 
+}
+
+type OnDeleteResponse {
+  success: Boolean!
+}
+
+type Booking {
+  id: ID! 
+  startDate: DateTime!
+  endDate: DateTime
+  noWhatsApp: String
+  address: String
+  message: String
+  items: [Item!]! 
+  status: BookingStatus! 
+  userBooking: User 
+}
+
+type Item {
+  id: ID! 
+  amount: Int!
+  product: Product!
+  booking: Booking!
+}
+
+type Product {
+  id: ID!
+  name: String!
+  description: String!
+  tag: ProductTag!
+  stock: Int!
+  photo: ProductPhoto
+  item: [Item!]!
+  price: Int!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type ProductEdge {
+  node: Product!
+  cursor: String!
+}
+
+type UserEdge {
+  node: User!
+  cursor: String!
+}
+
+type BookingEdge {
+  node: Booking!
+  cursor: String!
+}
+
+type AggregateProduct {
+  count: Int!
+}
+
+type AggregateUser {
+  count: Int!
+}
+
+type AggregateBooking {
+  count: Int!
+}
+
+type ProductsConnection {
+  pageInfo: PageInfo!
+  edges: [ProductEdge]!
+  aggregate: AggregateProduct!
+}
+
+type BookingConnection {
+  pageInfo: PageInfo!
+  edges: [BookingEdge]!
+  aggregate: AggregateBooking!
+}
+
+type UsersConnection {
+  pageInfo: PageInfo!
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
+}
+
+enum BookingStatus {
+  CREATED,
+  SEND,
+  PROCCESS,
+  SUCCESS,
+}
+
+enum ProductTag {
+  BARANG,
+  PAKETWEDDING
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
