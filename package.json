@@ -14,7 +14,7 @@
     "bcryptjs": "2.4.3",
     "date-fns": "1.29.0",
     "graphql-middleware-apollo-upload-server": "1.0.8",
-    "graphql-shield": "2.2.6",
+    "graphql-shield": "6.0.6",
     "graphql-yoga": "1.15.1",
     "jsonwebtoken": "8.3.0",
     "lodash": "4.17.10",
